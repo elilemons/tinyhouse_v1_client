@@ -1,11 +1,10 @@
 import React from 'react';
 import { render } from 'react-dom';
+import { Listings } from './sections';
 import * as serviceWorker from './serviceWorker';
 
 render(
-  <div>
-    Hello, world!
-  </div>,
+  <Listings title="Tinyhouse Listings" />,
   document.getElementById('root')
 );
 
