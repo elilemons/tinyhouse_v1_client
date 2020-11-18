@@ -1,11 +1,19 @@
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import React from 'react';
 import { render } from 'react-dom';
+import { Listings } from './sections';
 import * as serviceWorker from './serviceWorker';
+import './styles/index.css';
+
+const client = new ApolloClient({
+  uri: '/api',
+  cache: new InMemoryCache(),
+});
 
 render(
-  <div>
-    Hello, world!
-  </div>,
+  <ApolloProvider client={client}>
+    <Listings title="Tinyhouse Listings" />
+  </ApolloProvider>,
   document.getElementById('root')
 );
 
