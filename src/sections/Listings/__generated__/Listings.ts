@@ -18,6 +18,7 @@ export interface Listings_listings {
   numOfBeds: number;
   numOfBaths: number;
   rating: number;
+  favorite: boolean | null;
 }
 
 export interface Listings {

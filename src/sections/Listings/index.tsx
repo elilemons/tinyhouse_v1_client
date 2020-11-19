@@ -8,6 +8,10 @@ import {
   CreateBookingVariables,
 } from './__generated__/CreateBooking';
 import {
+  FavoriteListing as FavoriteListingData,
+  FavoriteListingVariables,
+} from './__generated__/FavoriteListing';
+import {
   DeleteListing as DeleteListingData,
   DeleteListingVariables,
 } from './__generated__/DeleteListing';
@@ -51,6 +55,15 @@ const LISTINGS = gql`
       numOfBeds
       numOfBaths
       rating
+      favorite
+    }
+  }
+`;
+
+const FAVORITE_LISTING = gql`
+  mutation FavoriteListing($id: ID!) {
+    favoriteListing(id: $id) {
+      id
     }
   }
 `;
@@ -84,6 +97,13 @@ export const Listings = () => {
   ] = useMutation<CreateBookingData, CreateBookingVariables>(CREATE_BOOKING);
 
   const [
+    favoriteListing,
+    { loading: favoriteListingLoading, error: favoriteListingError },
+  ] = useMutation<FavoriteListingData, FavoriteListingVariables>(
+    FAVORITE_LISTING
+  );
+
+  const [
     deleteListing,
     { loading: deleteListingLoading, error: deleteListingError },
   ] = useMutation<DeleteListingData, DeleteListingVariables>(DELETE_LISTING);
@@ -96,6 +116,11 @@ export const Listings = () => {
       variables: { listingId, timestamp },
     });
     bookingsRefetch();
+    listingsRefetch();
+  };
+
+  const handleFavoriteListing = async (id: string) => {
+    await favoriteListing({ variables: { id } });
     listingsRefetch();
   };
 
@@ -113,6 +138,7 @@ export const Listings = () => {
       bookedListingIds={bookedListingIds}
       handleCreateBooking={handleCreateBooking}
       handleDeleteListing={handleDeleteListing}
+      handleFavoriteListing={handleFavoriteListing}
     />
   ) : null;
 
@@ -144,8 +170,20 @@ export const Listings = () => {
     />
   ) : null;
 
+  const favoriteListingErrorAlert = favoriteListingError ? (
+    <Alert
+      type="error"
+      message="Uh oh! Something went wrong while favoriting that listing. :( Try again later."
+      className="listing__alert"
+    />
+  ) : null;
+
   const createBookingLoadingMessage = createBookingLoading ? (
     <h4>Booking in progress...</h4>
+  ) : null;
+
+  const favoriteListingLoadingMessage = favoriteListingLoading ? (
+    <h4>Favoriting in progress...</h4>
   ) : null;
 
   const deleteListingErrorAlert = deleteListingError ? (
@@ -164,11 +202,17 @@ export const Listings = () => {
     <div className="app">
       {createBookingErrorAlert}
       {deleteListingErrorAlert}
-      <Spin spinning={createBookingLoading || deleteListingLoading}>
+      {favoriteListingErrorAlert}
+      <Spin
+        spinning={
+          createBookingLoading || favoriteListingLoading || deleteListingLoading
+        }
+      >
         {listingsList}
         {listingsBookings}
         {createBookingLoadingMessage}
         {deleteListingLoadingMessage}
+        {favoriteListingLoadingMessage}
       </Spin>
     </div>
   );

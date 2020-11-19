@@ -7,6 +7,7 @@ interface Props {
   bookedListingIds: string[];
   handleCreateBooking: (listingId: string) => void;
   handleDeleteListing: (id: string) => void;
+  handleFavoriteListing: (id: string) => void;
 }
 
 export const ListingsList = ({
@@ -14,6 +15,7 @@ export const ListingsList = ({
   bookedListingIds,
   handleCreateBooking,
   handleDeleteListing,
+  handleFavoriteListing,
 }: Props) => {
   return (
     <div className="listings-section">
@@ -36,6 +38,12 @@ export const ListingsList = ({
                   onClick={() => handleCreateBooking(listing.id)}
                 >
                   Book
+                </Button>,
+                <Button
+                  type="default"
+                  onClick={() => handleFavoriteListing(listing.id)}
+                >
+                  {listing.favorite ? '♥' : '♡'}
                 </Button>,
               ]}
             >
