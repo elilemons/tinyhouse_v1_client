@@ -21,6 +21,7 @@ const BOOKINGS = gql`
   query Bookings {
     bookings {
       id
+      listingId
       title
       image
       address
@@ -104,15 +105,17 @@ export const Listings = () => {
   };
 
   const listings = listingsData ? listingsData.listings : null;
+  const bookings = bookingsData ? bookingsData.bookings : null;
+  const bookedListingIds = bookings ? bookings.map((b) => b.listingId) : [];
   const listingsList = listings ? (
     <ListingsList
+      listings={listings}
+      bookedListingIds={bookedListingIds}
       handleCreateBooking={handleCreateBooking}
       handleDeleteListing={handleDeleteListing}
-      listings={listings}
     />
   ) : null;
 
-  const bookings = bookingsData ? bookingsData.bookings : null;
   const listingsBookings = bookings ? (
     <ListingsBookings bookings={bookings} />
   ) : null;

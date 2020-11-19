@@ -4,12 +4,14 @@ import { Listings as ListingsData } from '../../__generated__/Listings';
 
 interface Props {
   listings: ListingsData['listings'];
+  bookedListingIds: string[];
   handleCreateBooking: (listingId: string) => void;
   handleDeleteListing: (id: string) => void;
 }
 
 export const ListingsList = ({
   listings,
+  bookedListingIds,
   handleCreateBooking,
   handleDeleteListing,
 }: Props) => {
@@ -42,6 +44,12 @@ export const ListingsList = ({
                 description={listing.address}
                 avatar={<Avatar src={listing.image} shape="square" size={48} />}
               />
+              {bookedListingIds.some((id) => id === listing.id) ? (
+                <div>
+                  {bookedListingIds.filter((id) => id === listing.id).length}x
+                  booked
+                </div>
+              ) : null}
             </List.Item>
           );
         }}

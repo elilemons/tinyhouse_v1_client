@@ -10,6 +10,7 @@
 export interface Bookings_bookings {
   __typename: "Booking";
   id: string;
+  listingId: string;
   title: string | null;
   image: string | null;
   address: string | null;

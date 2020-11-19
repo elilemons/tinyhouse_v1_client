@@ -1,7 +1,5 @@
-import { ApolloError } from '@apollo/client';
-import { Avatar, List, Spin } from 'antd';
+import { Avatar, List } from 'antd';
 import React from 'react';
-import { ListingsSkeleton } from '..';
 import { Bookings as BookingsData } from '../../__generated__/Bookings';
 
 interface Props {
