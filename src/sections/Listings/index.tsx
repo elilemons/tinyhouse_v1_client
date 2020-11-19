@@ -8,10 +8,6 @@ import {
   CreateBookingVariables,
 } from './__generated__/CreateBooking';
 import {
-  DeleteBooking as DeleteBookingData,
-  DeleteBookingVariables,
-} from './__generated__/DeleteBooking';
-import {
   FavoriteListing as FavoriteListingData,
   FavoriteListingVariables,
 } from './__generated__/FavoriteListing';
@@ -43,16 +39,6 @@ const CREATE_BOOKING = gql`
     createBooking(listingId: $listingId, timestamp: $timestamp) {
       listingId
       timestamp
-    }
-  }
-`;
-
-const DELETE_BOOKING = gql`
-  mutation DeleteBooking($id: ID!) {
-    deleteBooking(id: $id) {
-      id
-      listingId
-      title
     }
   }
 `;
@@ -160,6 +146,7 @@ export const Listings = () => {
     return (
       <div className="app">
         <ListingsSkeleton title="TinyHouse Listings" />
+        <ListingsBookings />
       </div>
     );
   }
@@ -168,6 +155,7 @@ export const Listings = () => {
     return (
       <div className="app">
         <ListingsSkeleton title="TinyHouse Listings" error />
+        <ListingsBookings />
       </div>
     );
   }
